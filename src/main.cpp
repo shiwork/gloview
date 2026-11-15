@@ -107,6 +107,11 @@ int luaOpen(lua_State*) {
         g_overview->open();
     return 0;
 }
+int luaActivate(lua_State*) {
+    if (g_overview)
+        g_overview->activate();
+    return 0;
+}
 int luaClose(lua_State*) {
     if (g_overview)
         g_overview->close();
@@ -358,6 +363,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
         luaOk = HyprlandAPI::addLuaFunction(handle, "gloview", "toggle", luaToggle);
         HyprlandAPI::addLuaFunction(handle, "gloview", "open", luaOpen);
         HyprlandAPI::addLuaFunction(handle, "gloview", "close", luaClose);
+        HyprlandAPI::addLuaFunction(handle, "gloview", "activate", luaActivate);
         HyprlandAPI::addLuaFunction(handle, "gloview", "desktop", luaDesktop);
         HyprlandAPI::addLuaFunction(handle, "gloview", "allworkspaces", luaAllWorkspaces);
         HyprlandAPI::addLuaFunction(handle, "gloview", "next", luaNext);
