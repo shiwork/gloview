@@ -8,6 +8,7 @@
 #include <utility>
 
 #include <hyprland/src/Compositor.hpp>
+#include <hyprland/src/config/shared/actions/ConfigActions.hpp>
 #include <hyprland/src/layout/LayoutManager.hpp>
 #include <hyprland/src/layout/space/Space.hpp>
 #include <hyprland/src/layout/target/Target.hpp>
@@ -3346,8 +3347,13 @@ void Overview::activateWindow(const PHLWINDOW& w, bool keybind) {
             m_workspace = ws;
     }
     close();
-    if (w)
+    if (w) {
         Desktop::focusState()->fullWindowFocus(w, keybind ? Desktop::FOCUS_REASON_KEYBIND : Desktop::FOCUS_REASON_CLICK);
+        // Overlapping floating windows: focusing alone can leave the picked window behind
+        // another one, so raise it explicitly.
+        if (w->m_isFloating)
+            Config::Actions::alterZOrder("top", w);
+    }
 }
 
 // Point Hyprland's REAL focus at the selected tile while the overview is up. passthrough
