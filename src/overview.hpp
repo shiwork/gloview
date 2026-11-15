@@ -111,6 +111,7 @@ class Overview {
     // blank → grey preview). Checked before shouldHideWindow in the render hook.
     bool forceRenderWindow(const PHLWINDOW& w) const;
 
+    void                     activate() { if (m_active) activateSelection(); } // focus the selected tile and dismiss (for the gloview:activate dispatcher)
     [[nodiscard]] bool       active() const { return m_active; }
     [[nodiscard]] PHLMONITOR monitor() const { return m_monitor.lock(); }
     [[nodiscard]] bool       blurEnabled() const; // plugin:gloview:blur != 0 (queried by the pass)

@@ -52,6 +52,11 @@ SDispatchResult dispOpen(std::string) {
         g_overview->open();
     return {.success = true};
 }
+SDispatchResult dispActivate(std::string) {
+    if (g_overview)
+        g_overview->activate();
+    return {.success = true};
+}
 SDispatchResult dispClose(std::string) {
     if (g_overview)
         g_overview->close();
@@ -254,6 +259,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
     HyprlandAPI::addDispatcherV2(handle, "gloview:toggle", dispToggle);
     HyprlandAPI::addDispatcherV2(handle, "gloview:open", dispOpen);
     HyprlandAPI::addDispatcherV2(handle, "gloview:close", dispClose);
+    HyprlandAPI::addDispatcherV2(handle, "gloview:activate", dispActivate); // focus the selected tile and dismiss (Enter, as a dispatcher)
     HyprlandAPI::addDispatcherV2(handle, "gloview:desktop", dispDesktop); // toggle the free-arrange desktop mode
     HyprlandAPI::addDispatcherV2(handle, "gloview:allworkspaces", dispAllWorkspaces); // open/toggle the all-workspaces expo view
     // Workspace navigation. Inside the overview these move the DISPLAYED workspace (like tab
